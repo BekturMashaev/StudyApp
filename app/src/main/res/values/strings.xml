@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Study</string>
+    <string name="password_isn_t_valid">Password is not valid</string>
+    <string name="incorrect">Incorrect :(</string>
+    <string name="register">Register</string>
+    <string name="your_password">Your Password</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="study_email_com">study@email.com</string>
+    <string name="your_name">Your name</string>
+    <string name="name">Name</string>
+    <string name="arrow_back">arrow back</string>
+    <string name="is_empty">field must not be empty</string>
+    <string name="password_too_short">must be more than 8 symbols</string>
+    <string name="must_contain_one_char">it must contain one symbol</string>
+    <string name="must_contain_one_digit">must contain one digit</string>
+    <string name="must_contain_one_uppercase">must contain one uppercase</string>
+    <string name="is_invalid_format">ivalid format</string>
+    <string name="nothing">" "</string>
+    <string name="do_you_agree">Do you agree :) ?</string>
+</resources>
