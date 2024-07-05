@@ -9,13 +9,5 @@ import dagger.hilt.android.HiltAndroidApp
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
-        val notificationChannel = NotificationChannel(
-            "study_notification_id",
-            "Message reminder",
-            NotificationManager.IMPORTANCE_HIGH
-        )
-        notificationChannel.description = "A notification for checking"
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(notificationChannel)
     }
 }

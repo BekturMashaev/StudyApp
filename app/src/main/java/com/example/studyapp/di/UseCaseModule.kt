@@ -1,16 +1,21 @@
 package com.example.studyapp.di
 
 import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.ChatRepository
 import com.example.domain.usecases.auth.authorized.IsUserAuthorizedUseCase
 import com.example.domain.usecases.auth.authorized.IsUserAuthorizedUseCaseImpl
 import com.example.domain.usecases.auth.create.profile.CreateUserProfileUseCase
 import com.example.domain.usecases.auth.create.profile.CreateUserProfileUseCaseImpl
 import com.example.domain.usecases.auth.email.verified.IsEmailVerifiedUseCase
 import com.example.domain.usecases.auth.email.verified.IsEmailVerifiedUseCaseImpl
+import com.example.domain.usecases.auth.login.UserLoginUseCase
+import com.example.domain.usecases.auth.login.UserLoginUseCaseImpl
 import com.example.domain.usecases.auth.register.UserRegisterUseCase
 import com.example.domain.usecases.auth.register.UserRegisterUseCaseImpl
 import com.example.domain.usecases.auth.sign.out.SignOutUseCase
 import com.example.domain.usecases.auth.sign.out.SignOutUseCaseImpl
+import com.example.domain.usecases.chat.ObserveAllUserUseCase
+import com.example.domain.usecases.chat.ObserveAllUserUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -50,4 +55,16 @@ class UseCaseModule {
     fun provideIsEmailVerifiedUseCase(
         repository: AuthRepository,
     ): IsEmailVerifiedUseCase = IsEmailVerifiedUseCaseImpl(repository)
+
+    @Provides
+    @Singleton
+    fun provideObserveAllUserUseCase(
+        repository: ChatRepository,
+    ): ObserveAllUserUseCase = ObserveAllUserUseCaseImpl(repository)
+
+    @Provides
+    @Singleton
+    fun provideLoginUserUseCase(
+        repository: AuthRepository,
+    ): UserLoginUseCase = UserLoginUseCaseImpl(repository)
 }

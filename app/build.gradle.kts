@@ -101,4 +101,8 @@ dependencies {
     implementation(libs.coil.compose)
     //** permission **\\
     implementation(libs.accompanist.permissions)
+    //** Firebase platform **\\
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.database)
 }

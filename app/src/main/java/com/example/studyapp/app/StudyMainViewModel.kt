@@ -22,8 +22,8 @@ class StudyMainViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            delay(1000L)
             _isAuthorized.value = isUserAuthorizedUseCase.invoke()
+            delay(1000L)
             _isReady.value = true
         }
     }

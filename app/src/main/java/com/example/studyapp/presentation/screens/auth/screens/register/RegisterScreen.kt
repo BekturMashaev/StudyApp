@@ -1,26 +1,22 @@
 package com.example.studyapp.presentation.screens.auth.screens.register
 
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.studyapp.R
-import com.example.studyapp.presentation.screen.components.background.StudyScaffold
-import com.example.studyapp.presentation.screen.components.buttons.SubmitButton
-import com.example.studyapp.presentation.screen.components.text.field.EmailField
-import com.example.studyapp.presentation.screen.components.text.field.PasswordField
-import com.example.studyapp.presentation.screens.auth.screens.register.components.RegisterAgreementCheckBox
+import com.example.studyapp.presentation.core.snackbar.SnackbarMessageHandler
+import com.example.studyapp.presentation.screens.auth.screens.register.components.RegisterContent
 import com.example.studyapp.presentation.screens.auth.screens.register.components.RegisterTopAppBar
 import com.example.studyapp.presentation.screens.auth.screens.register.components.SuccessDialog
+import com.example.studyapp.presentation.screens.components.LoadingIndicator
+import com.example.studyapp.presentation.screens.components.background.StudyScaffold
 import com.example.studyapp.presentation.theme.StudyAppTheme
-import com.example.studyapp.presentation.theme.dp16
+import com.example.studyapp.presentation.theme.dp8
 
 @Composable
 fun RegisterScreen(
@@ -33,16 +29,6 @@ fun RegisterScreen(
     onNavigateToVerification: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    if (uiState == RegisterUIState.Success) {
-        SuccessDialog(
-            onClose = onNavigateToVerification
-        )
-    }
-    if (uiState == RegisterUIState.Loading) {
-        CircularProgressIndicator()
-    }
-    val (isEmailValid,emailErrorMessage) = validationState.isEmailNotValid
-    val (isPasswordValid,passwordErrorMessage) = validationState.isPasswordNotValid
     StudyScaffold(
         topBar = {
             RegisterTopAppBar(
@@ -50,45 +36,32 @@ fun RegisterScreen(
             )
         },
         content = { innerPadding ->
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = modifier
-                    .padding(innerPadding)
-            ) {
-                Spacer(modifier = modifier.size(dp16))
-                EmailField(
-                    onValueChange = { value ->
-                        onInteractions(RegisterInteractions.OnEmailChanged(email = value))
-                    },
-                    value = userInfoState.email,
-                    isValid = isEmailValid,
-                    errorTextMessage = emailErrorMessage.asString(),
+            RegisterContent(
+                innerPadding = innerPadding,
+                onInteractions = onInteractions,
+                userInfoState = userInfoState,
+                validationState = validationState,
+                onTermsClick = onTermsClick,
+            )
+            when (uiState) {
+                is RegisterUIState.Error -> {
+                    SnackbarMessageHandler(
+                        snackbarMessage = uiState.snackbarMessage,
+                    )
+                }
+
+                is RegisterUIState.Loading -> {
+                    LoadingIndicator()
+                }
+                else -> {}
+            }
+        },
+        dialog = {
+            if (uiState == RegisterUIState.Success) {
+                SuccessDialog(
+                    onClose = onNavigateToVerification,
+                    text = "Email's been sent"
                 )
-                Spacer(modifier = modifier.size(dp16))
-                PasswordField(
-                    value = userInfoState.password,
-                    onValueChange = { value ->
-                        onInteractions(RegisterInteractions.OnPasswordChanged(password = value))
-                    },
-                    isValid = isPasswordValid,
-                    errorTextMessage = passwordErrorMessage.asString(),
-                )
-                Spacer(modifier = modifier.size(dp16))
-                RegisterAgreementCheckBox(
-                    checked = validationState.isAgreedOnTerms,
-                    onTermsClick = onTermsClick,
-                    onCheckedChange = { checked ->
-                        onInteractions(RegisterInteractions.OnCheckedChange(checked = checked))
-                    },
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                SubmitButton(
-                    text = stringResource(R.string.register),
-                    onButtonClick = {
-                        onInteractions(RegisterInteractions.OnRegisterButtonClick)
-                    }
-                )
-                Spacer(modifier = Modifier.weight(0.1f))
             }
         }
     )
@@ -106,7 +79,7 @@ private fun RegisterScreenPreview() {
             onNavigateBack = {},
             onTermsClick = {},
             onNavigateToVerification = {},
-            uiState = RegisterUIState.Loaded,
+            uiState = RegisterUIState.Initial,
         )
     }
 }

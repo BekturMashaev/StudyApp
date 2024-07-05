@@ -51,6 +51,8 @@ dependencies {
     ksp(libs.ksp)
     //** mock **\\
     implementation(libs.mockk)
+    //** gson **\\
+    implementation(libs.gson)
     //** Firebase platform **\\
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)

@@ -1,12 +1,16 @@
 package com.example.studyapp.presentation.screens.auth.screens.register
 
+import androidx.compose.material3.SnackbarDuration
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.models.UserSignDomainModel
 import com.example.domain.result.Result
-import com.example.domain.usecases.auth.email.verified.IsEmailVerifiedUseCase
 import com.example.domain.usecases.auth.register.UserRegisterUseCase
+import com.example.studyapp.R
 import com.example.studyapp.presentation.core.ValidationFacade
+import com.example.studyapp.presentation.core.snackbar.SnackbarMessage
+import com.example.studyapp.presentation.core.snackbar.UserMessage
+import com.example.studyapp.presentation.core.uitext.asNetworkErrorUiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,32 +22,19 @@ import javax.inject.Inject
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
     private val registerUseCase: UserRegisterUseCase,
-    private val isEmailVerifiedUseCase: IsEmailVerifiedUseCase,
     private val validationFacade: ValidationFacade
 ) : ViewModel() {
     private val _userInfoState: MutableStateFlow<RegisterUserInfoState> =
         MutableStateFlow(RegisterUserInfoState())
     val userInfoState: StateFlow<RegisterUserInfoState> = _userInfoState.asStateFlow()
 
-    val isFinished: MutableStateFlow<Boolean> = MutableStateFlow(false)
-
-    private val _uiStateState: MutableStateFlow<RegisterUIState> =
+    private val _uiState: MutableStateFlow<RegisterUIState> =
         MutableStateFlow(RegisterUIState.Initial)
-    val uiStateState: StateFlow<RegisterUIState> = _uiStateState.asStateFlow()
+    val uiState: StateFlow<RegisterUIState> = _uiState.asStateFlow()
 
     private val _userValidationState: MutableStateFlow<RegisterValidationState> =
         MutableStateFlow(RegisterValidationState())
     val userValidationState: StateFlow<RegisterValidationState> = _userValidationState.asStateFlow()
-
-    init {
-        viewModelScope.launch {
-            val emailVerification = isEmailVerifiedUseCase().collect { verified ->
-                if (verified) _uiStateState.update {
-                    RegisterUIState.Success
-                }
-            }
-        }
-    }
 
     fun onEvent(interaction: RegisterInteractions) {
         when (interaction) {
@@ -56,7 +47,7 @@ class RegisterViewModel @Inject constructor(
 
     private fun doUserRegister() {
         viewModelScope.launch {
-            _uiStateState.update {
+            _uiState.update {
                 RegisterUIState.Loading
             }
             with(userInfoState.value) {
@@ -69,17 +60,17 @@ class RegisterViewModel @Inject constructor(
                     )
                     when (result) {
                         is Result.Error -> {
-                            _uiStateState.update {
-                                RegisterUIState.Error
-                            }
+                            showMessage(result.error.asNetworkErrorUiText())
                         }
 
                         is Result.Success -> {
-                            _uiStateState.update {
-                                RegisterUIState.Loaded
+                            _uiState.update {
+                                RegisterUIState.Success
                             }
                         }
                     }
+                } else {
+                    showMessage(R.string.fill_in_all_the_blanks)
                 }
             }
         }
@@ -117,5 +108,15 @@ class RegisterViewModel @Inject constructor(
                 isAgreedOnTerms = interaction.checked
             )
         }
+    }
+
+    private fun showMessage(message: Int) = _uiState.update {
+        RegisterUIState.Error(
+            snackbarMessage = SnackbarMessage.from(
+                userMessage = UserMessage.from(resId = message),
+                withDismissAction = true,
+                duration = SnackbarDuration.Short,
+            )
+        )
     }
 }

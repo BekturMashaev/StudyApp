@@ -1,13 +1,12 @@
 package com.example.studyapp.presentation.screens.auth.screens.register.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +23,7 @@ import com.example.studyapp.presentation.theme.sp13
 import com.example.studyapp.presentation.theme.sp14
 
 @Composable
+
 fun RegisterAgreementCheckBox(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
@@ -33,10 +33,7 @@ fun RegisterAgreementCheckBox(
     val checkboxColors = CheckboxDefaults.colors(
         checkedColor = Blue,
         uncheckedColor = Gray,
-        checkmarkColor = White,
-        disabledCheckedColor = Blue,
-        disabledUncheckedColor = Gray,
-        disabledIndeterminateColor = Gray
+        checkmarkColor = White
     )
     val annotatedText =
         buildAnnotatedString {
@@ -65,15 +62,13 @@ fun RegisterAgreementCheckBox(
             onCheckedChange = onCheckedChange,
             colors = checkboxColors
         )
-        Text(
-            text = annotatedText,
-            modifier = Modifier.clickable {
-                annotatedText.getStringAnnotations("terms", 0, annotatedText.length)
-                    .firstOrNull()?.let {
-                        onTermsClick()
-                    }
+        ClickableText(text = annotatedText) { offSet ->
+            val startIndex = annotatedText.indexOf("terms and conditions")
+            val endIndex = startIndex + "terms and conditions".length
+            if (offSet in startIndex until endIndex) {
+                onTermsClick()
             }
-        )
+        }
     }
 }
 
@@ -84,7 +79,7 @@ private fun RegisterAgreementCheckBoxPreview() {
         RegisterAgreementCheckBox(
             checked = true,
             onCheckedChange = {},
-            onTermsClick = {}
+            onTermsClick = {},
         )
     }
 }

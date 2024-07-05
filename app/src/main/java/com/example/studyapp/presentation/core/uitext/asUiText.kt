@@ -1,5 +1,6 @@
 package com.example.studyapp.presentation.core.uitext
 
+import com.example.domain.result.errortype.DataError
 import com.example.domain.result.errortype.EmailError
 import com.example.domain.result.errortype.PasswordError
 import com.example.studyapp.R
@@ -37,5 +38,15 @@ fun EmailError.asEmailUiText(): UiText {
         EmailError.INVALID_FORMAT -> UiText.StringResource(
             R.string.is_invalid_format
         )
+    }
+}
+
+fun DataError.Network.asNetworkErrorUiText(): Int {
+    return when (this) {
+        DataError.Network.EMAIL_EXISTS ->
+            R.string.email_already_exist
+
+        DataError.Network.UNKNOWN ->
+            R.string.unknown
     }
 }

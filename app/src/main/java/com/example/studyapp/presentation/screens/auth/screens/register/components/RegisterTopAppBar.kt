@@ -3,7 +3,6 @@ package com.example.studyapp.presentation.screens.auth.screens.register.componen
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
@@ -18,8 +17,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.example.studyapp.R
 import com.example.studyapp.presentation.theme.dp24
-import com.example.studyapp.presentation.theme.dp300
-import com.example.studyapp.presentation.theme.dp36
 
 @Composable
 fun RegisterTopAppBar(

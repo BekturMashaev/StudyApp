@@ -27,6 +27,12 @@ val AppTypography: Typography = Typography(
         lineHeight = sp24,
         fontWeight = FontWeight.Medium,
     ),
+    headlineLarge = TextStyle(
+        fontFamily = Poppins,
+        fontSize = sp20,
+        lineHeight = sp24,
+        fontWeight = FontWeight.SemiBold,
+    ),
     displayMedium = TextStyle(
         fontFamily = Poppins,
         fontSize = sp17,
@@ -71,6 +77,8 @@ val DarkColorScheme = darkColorScheme(
     surfaceTint = TextFieldDarkGray,
     errorContainer = DarkREd.copy(alpha = 0.4f),
     onError = LightRed,
+    inversePrimary = White,
+    inverseSurface = Blue
 )
 
 val LightColorScheme = lightColorScheme(
@@ -82,4 +90,6 @@ val LightColorScheme = lightColorScheme(
     surfaceTint = TextFieldGray,
     errorContainer = LightRed.copy(alpha = 0.4f),
     onError = LightRed,
+    inversePrimary = BorderGray,
+    inverseSurface = LightBLue
 )

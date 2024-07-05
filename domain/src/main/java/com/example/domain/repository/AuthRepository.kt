@@ -7,8 +7,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
     suspend fun registerNewUser(user: UserSignDomainModel): Result<Unit, DataError.Network>
+    suspend fun login(user: UserSignDomainModel): Result<Unit, DataError.Network>
     suspend fun createUserProfile(user: UserSignDomainModel): Result<Unit, DataError.Network>
-    suspend fun isUserAuthorized(): Boolean
+    suspend fun observeIsUserAuthorized(): Boolean
     suspend fun signOut()
     suspend fun observeIsEmailVerified(): Flow<Boolean>
 }

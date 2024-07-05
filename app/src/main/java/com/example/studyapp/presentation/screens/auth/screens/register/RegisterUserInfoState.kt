@@ -12,3 +12,4 @@ data class RegisterUserInfoState(
         return email.isNotEmpty() && password.isNotEmpty()
     }
 }
+

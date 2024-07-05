@@ -30,7 +30,6 @@ class ValidationFacade(
                 val errorMessage = result.error.asPasswordUiText()
                 Pair(false, errorMessage)
             }
-
             is Result.Success -> {
                 Pair(true, UiText.asNullString())
             }

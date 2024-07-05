@@ -18,4 +18,11 @@
     <string name="is_invalid_format">ivalid format</string>
     <string name="nothing">" "</string>
     <string name="do_you_agree">Do you agree :) ?</string>
+    <string name="fill_in_all_the_blanks">fill in all the blanks</string>
+    <string name="email_already_exist">email already exist</string>
+    <string name="unknown">unknow error</string>
+    <string name="unknown_success">unknown success</string>
+    <string name="create_profile">Create Profile</string>
+    <string name="continue_btn">Continue</string>
+    <string name="login">Login</string>
 </resources>

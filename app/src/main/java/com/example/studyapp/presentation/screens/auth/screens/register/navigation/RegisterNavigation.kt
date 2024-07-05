@@ -2,6 +2,7 @@ package com.example.studyapp.presentation.screens.auth.screens.register.navigati
 
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -24,7 +25,7 @@ fun NavGraphBuilder.registerScreen(
             navBackStackEntry.sharedViewModel<RegisterViewModel>(navController = navController)
         val userInfoState by registerViewModel.userInfoState.collectAsState()
         val userValidationState by registerViewModel.userValidationState.collectAsState()
-        val uiState by registerViewModel.uiStateState.collectAsState()
+        val uiState by registerViewModel.uiState.collectAsState()
         RegisterScreen(
             onInteractions = registerViewModel::onEvent,
             userInfoState = userInfoState,
@@ -32,7 +33,7 @@ fun NavGraphBuilder.registerScreen(
             onNavigateBack = onNavigateBack,
             onTermsClick = onTermsClick,
             uiState = uiState,
-            onNavigateToVerification = onNavigateToVerification
+            onNavigateToVerification = onNavigateToVerification,
         )
     }
 }

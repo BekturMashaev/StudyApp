@@ -7,16 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.example.studyapp.presentation.screens.auth.navigation.AuthDestination
 import com.example.studyapp.presentation.screens.auth.navigation.authGraph
 import com.example.studyapp.presentation.screens.auth.navigation.navigateToAuthGraph
-import com.example.studyapp.presentation.screens.main.MainDestination
-import com.example.studyapp.presentation.screens.main.home.HomeDestination
-import com.example.studyapp.presentation.screens.main.home.HomeScreen
-import com.example.studyapp.presentation.screens.main.home.HomeViewModel
+import com.example.studyapp.presentation.screens.main.navigation.MainDestination
+import com.example.studyapp.presentation.screens.main.navigation.mainGraph
 
 @Composable
 fun AppNavGraph(
@@ -35,20 +31,11 @@ fun AppNavGraph(
                 }
             }
         )
-        navigation<MainDestination>(
-            startDestination = HomeDestination
-        ) {
-            composable<HomeDestination> { navBackStackEntry ->
-                val registerViewModel =
-                    navBackStackEntry.sharedViewModel<HomeViewModel>(navController = navController)
-                HomeScreen(
-                    signOut = {
-                        registerViewModel.onItemClick()
-                        navController.navigateToAuthGraph()
-                    }
-                )
+        mainGraph(
+            onNavigateToLogin = {
+                navController.navigateToAuthGraph()
             }
-        }
+        )
     }
 }
 
